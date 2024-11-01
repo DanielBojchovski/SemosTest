@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SemosTest.Models;
 
 namespace SemosTest.Controllers
 {
@@ -15,6 +17,20 @@ namespace SemosTest.Controllers
         public IActionResult Get()
         {
             return Ok(Summaries);
+        }
+
+        [Authorize(Roles = StaticUserRoles.USER)]
+        [HttpGet("UserGet")]
+        public IActionResult UserGet()
+        {
+            return Ok("User data");
+        }
+
+        [Authorize(Roles = StaticUserRoles.ADMIN)]
+        [HttpGet("AdminGet")]
+        public IActionResult AdminGet()
+        {
+            return Ok("Admin secret data");
         }
     }
 }
