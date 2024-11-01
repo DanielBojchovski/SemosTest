@@ -125,5 +125,20 @@ namespace SemosTest.Controllers
 
             return token;
         }
+
+        [HttpPost("MakeUserAdmin")]
+        public async Task<IActionResult> MakeUserAdmin(MakeUserAdminRequest request)
+        {
+            IdentityUser? user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (user is null)
+            {
+                return BadRequest("User does not exist");
+            }
+
+            await _userManager.AddToRoleAsync(user, StaticUserRoles.ADMIN);
+
+            return Ok("User is now admin");
+        }
     }
 }
